@@ -1,0 +1,63 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:att="clr-namespace:AttachedProperties">
+    
+    <!--#region Placeholder-->
+    <Style x:Key="PasswordBoxWithPlaceholder" TargetType="{x:Type TextBox}">
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="CaretBrush" Value="Black"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontWeight" Value="Light"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <DockPanel LastChildFill="True">
+                        <AdornedElementPlaceholder/>
+                        <TextBlock Foreground="Red" Margin="2,0,0,0"/>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Grid>
+                        <Border x:Name="Border"
+                            BorderThickness="0.5"
+                            CornerRadius="5"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"/>
+                        <TextBlock x:Name="Placeholder"
+                               Text="{TemplateBinding Tag}"
+                               Foreground="#A0A0A0"
+                               Margin="3"
+                               IsHitTestVisible="False"
+                               Visibility="Collapsed"
+                               
+                               Style="{TemplateBinding att:Helper.AdditionalStyle}"/>
+                               
+                        <ScrollViewer x:Name="PART_ContentHost" Margin="3"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Text" Value=""/>
+                                <Condition Property="IsFocused" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Placeholder" Property="Visibility" Value="Visible"/>
+                        </MultiTrigger>
+                        <Trigger Property="Validation.HasError" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="Red"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--#endregion-->
+
+</ResourceDictionary>
